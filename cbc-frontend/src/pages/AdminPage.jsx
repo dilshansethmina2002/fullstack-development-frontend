@@ -3,6 +3,8 @@ import { FaRegUser } from "react-icons/fa6";
 import { MdProductionQuantityLimits } from "react-icons/md";
 import { CiSettings } from "react-icons/ci";
 import { LuPackage } from "react-icons/lu";
+import AdminProductPage from "./admin/AdminProductPage";
+import { AddproductForm } from "./admin/AddproductForm";
 export function AdminPage(){
     return(
         <div className="bg-gray-300 w-full h-screen flex flex-row p-1">
@@ -13,12 +15,13 @@ export function AdminPage(){
                 <Link to="/admin/settings" className="flex items-center gap-2"> <CiSettings />Settings</Link>   
             </div>
             <div className="bg-white w-[calc(100vw-300px)] h-full rounded-lg m-2">
-                <Routes>
-                    <Route path="user" element={<h1>Users Page</h1>} />
-                    <Route path="products" element={<h1>Products Page</h1>} />
-                    <Route path="orders" element={<h1>Orders Page</h1>} />
-                    <Route path="settings" element={<h1>Settings Page</h1>} />
-                    <Route path="*" element={<h1>Welcome to Admin Panel</h1>} />
+                <Routes path="/*">
+                    <Route path="/user" element={<h1>Users Page</h1>} />
+                    <Route path="/products" element={<AdminProductPage/>} />
+                    <Route path="/orders" element={<h1>Orders Page</h1>} />
+                    <Route path="/settings" element={<h1>Settings Page</h1>} />
+                    <Route path="/*" element={<h1>Welcome to Admin Panel</h1>} />
+                    <Route path="/addProduct" element={<AddproductForm />} />
                 </Routes>
             </div>
         </div>
