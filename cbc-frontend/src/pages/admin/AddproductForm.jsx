@@ -1,7 +1,8 @@
 import axios from "axios";
 import { useState } from "react";
 import toast from "react-hot-toast";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { MediaUpload } from "../../../utils/mediaUpload";
 
 export function AddproductForm(){
     const [productId,setProductId] = useState("")
@@ -11,34 +12,47 @@ export function AddproductForm(){
     const [labledPrice,setLabledPrice] = useState("")
     const [description,setDescription] = useState("")
     const [stocks,setStocks] = useState("")
+    const [images,setImages] = useState([])
+    const navigate = useNavigate()
     
-    function handleAddProduct(){
+    async function handleAddProduct(){
+        const promiseArray = []
+        for(let i=0;i<images.length;i++){
+            const promise= MediaUpload(images[i])
+            promiseArray[i] = promise
+        }
+        try{
+        const results =await Promise.all(promiseArray)
+
         const product= {
             productId : productId,
             name : name,
             altName : altName.split(","),
             price : Number(price),
             labledPrice : Number(labledPrice),
+            image : results,
             description : description,
+
             stocks : Number(stocks)
         }
 
         const token= localStorage.getItem("token")
         console.log(token)  
 
-        axios.post(import.meta.env.VITE_BACKEND_URL+"/api/product",product,
+        await axios.post(import.meta.env.VITE_BACKEND_URL+"/api/product",product,
             {
                 headers: {
                     "Authorization" : "Bearer "+token
                 }
             }
-        ).then(
-            ()=>{toast.success("Product added successfully") }
-        ).catch(
-            (error)=>{toast.error("Error adding product") 
-                console.log(error)
-            }
         )
+        toast.success("Product added successfully")
+        navigate("/admin/products")
+
+        }catch(error){
+            console.log(error)
+            toast.error("Error uploading images")
+        }
     
     }
     return(
@@ -90,6 +104,14 @@ export function AddproductForm(){
                         }} 
 
                         className="border border-white w-[70%] h-[50px] rounded-lg text-center text-xl" placeholder="Description" />
+                <input type="file"
+                    onChange={(e) => {
+                        setImages(e.target.files)
+
+                    }}
+                    multiple
+                    className="border border-white w-[70%] h-[50px] rounded-lg text-center text-xl" placeholder="Image"
+                />
                 <input type="number"    
                     value={stocks}
                     onChange={(e)=>{
@@ -97,6 +119,8 @@ export function AddproductForm(){
                     }}
                 className="border border-white w-[70%] h-[50px] rounded-lg text-center text-xl" placeholder="Stocks" />
                 
+                
+
                 <div className="flex flex-row mt-5 items-center justify-between text-xl  w-[70%] h-[70px] ">
                     <Link to="/admin/products" className="bg-red-400 p-3 rounded-lg hover:bg-red-500 w-[170px] flex items-center justify-center">Cancle</Link>
                     <button onClick={handleAddProduct} className="bg-green-400 p-3 rounded-lg hover:bg-green-500 ml-5 w-[170px] flex items-center justify-center ">Add Product</button>
