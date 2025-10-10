@@ -41,12 +41,14 @@ export function LoginPage(){
                 <div className="w-[500px] h-[600px] backdrop-blur-xl rounded-lg flex flex-col items-center justify-center gap-8">
                     Login Page
     
+
+                     <input type="text" onChange={(e)=>{
+                        setEmail(e.target.value)}}
+                        className="border border-white w-[70%] h-[50px] rounded-lg text-center" placeholder="Email" />
                     <input type="password" onChange={(e)=>{
                         setPassword(e.target.value)}} 
                     className="border border-white w-[70%] h-[50px] rounded-lg text-center" placeholder="Password" />
-                    <input type="text" onChange={(e)=>{
-                        setEmail(e.target.value)}}
-                        className="border border-white w-[70%] h-[50px] rounded-lg text-center" placeholder="Email" />
+                   
                     <button className="bg-blue-200 rounded-xl w-[60%] h-[50px] cursor-pointer"  onClick={handleLogin}>Login</button>
                      
                 </div>

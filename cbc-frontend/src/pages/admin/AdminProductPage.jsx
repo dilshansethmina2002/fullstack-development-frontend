@@ -31,10 +31,7 @@ export default function AdminProductPage(){
 
             </thead>
             <tbody>
-
-            </tbody>
-        </table>
-        {  products.map(
+                {  products.map(
                 (product,index)=>{
                     return(
                         <tr key={index} className="grid grid-cols-5 text-center border-t border-gray-200 hover:bg-gray-100 hover:cursor-pointer transition duration-300 ease-in-out hover:scale-105 text-2xl p-4">
@@ -48,6 +45,9 @@ export default function AdminProductPage(){
                 }
             )
         }
+            </tbody>
+        </table>
+        
         <Link to={"/admin/addProduct"} className="text-white bg-gray-800 p-4 rounded-full text-2xl absolute right-8 bottom-4 hover:bg-gray-700 transition duration-300 ease-in-out hover:scale-110 cursor-pointer" >
             <FaPlus />
         </Link>
