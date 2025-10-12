@@ -1,61 +1,63 @@
 import axios from "axios";
 import { useState } from "react";
 import toast from "react-hot-toast";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { MediaUpload } from "../../../utils/mediaUpload";
 
-export function AddproductForm(){
-    const [productId,setProductId] = useState("")
-    const [name,setName] = useState("")
-    const [altName,setAltName] = useState("")
-    const [price,setPrice] = useState("")
-    const [labledPrice,setLabledPrice] = useState("")
-    const [description,setDescription] = useState("")
-    const [stocks,setStocks] = useState("")
+export function EditProductForm(){
+
+    const locationData = useLocation();
+
+    const [productId,setProductId] = useState(locationData.state.product.productId)
+    const [name,setName] = useState(locationData.state.product.name)
+    const [altName,setAltName] = useState(locationData.state.product.altName.join(","))
+    const [price,setPrice] = useState(locationData.state.product.price)
+    const [labledPrice,setLabledPrice] = useState(locationData.state.product.labledPrice)
+    const [description,setDescription] = useState(locationData.state.product.description)
+    const [stocks,setStocks] = useState(locationData.state.product.stocks)
     const [images,setImages] = useState([])
     const navigate = useNavigate()
-    const [loading,setLoading] = useState(false)
-    
-    async function handleAddProduct(){
-        setLoading(true)
+
+    async function handleEditProduct(){
         const promiseArray = []
         for(let i=0;i<images.length;i++){
             const promise= MediaUpload(images[i])
             promiseArray[i] = promise
         }
         try{
-        const results =await Promise.all(promiseArray)
-
-        const product= {
-            productId : productId,
-            name : name,
-            altName : altName.split(","),
-            price : Number(price),
-            labledPrice : Number(labledPrice),
-            image : results,
-            description : description,
-
-            stocks : Number(stocks)
-        }
-
-        const token= localStorage.getItem("token")
-        console.log(token)  
-
-        await axios.post(import.meta.env.VITE_BACKEND_URL+"/api/product",product,
-            {
-                headers: {
-                    "Authorization" : "Bearer "+token
-                }
+            let results =await Promise.all(promiseArray)
+            if(images.length===0){
+                results= locationData.state.product.image
             }
-        )
-        toast.success("Product added successfully")
-        setLoading(false)
-        navigate("/admin/products")
+
+            const product= {
+                productId : productId,
+                name : name,
+                altName : altName.split(","),
+                price : Number(price),
+                labledPrice : Number(labledPrice),
+                image : results,
+                description : description,
+                images : results,
+                stocks : Number(stocks)
+            }
+
+            const token= localStorage.getItem("token")
+            console.log(token)  
+
+            await axios.put(import.meta.env.VITE_BACKEND_URL+"/api/product/"+productId,product,
+                {
+                    headers: {
+                        "Authorization" : "Bearer "+token
+                    }
+                }
+                )
+            toast.success("Product updated successfully")
+            navigate("/admin/products")
 
         }catch(error){
             console.log(error)
             toast.error("Error uploading images")
-            setLoading(false)
         }
     
     }
@@ -63,9 +65,10 @@ export function AddproductForm(){
         <div className="w-full h-full flex items-center justify-center bg-gray-200 text-3xl font-bold rounded-lg">
             <div className="w-[500px] h-[700px] bg-gray-400 rounded-lg flex items-center justify-center shadow-lg flex-col gap-3 flex">
             {/* productId, name,altName,price,labledPrice,description,image,stock */}
-                Add Product Form
+                Edit Product Form
                 
                 <input type="text"  
+                    disabled
                     value={productId}
                     onChange={
                     (e)=>{
@@ -127,9 +130,7 @@ export function AddproductForm(){
 
                 <div className="flex flex-row mt-5 items-center justify-between text-xl  w-[70%] h-[70px] ">
                     <Link to="/admin/products" className="bg-red-400 p-3 rounded-lg hover:bg-red-500 w-[170px] flex items-center justify-center">Cancle</Link>
-                    <button onClick={handleAddProduct} className="bg-green-400 p-3 rounded-lg hover:bg-green-500 ml-5 w-[170px] flex items-center justify-center ">{
-                        loading ? "Adding..." : "Add Product"
-                        }</button>
+                    <button onClick={handleEditProduct} className="bg-green-400 p-3 rounded-lg hover:bg-green-500 ml-5 w-[170px] flex items-center justify-center ">Update</button>
 
                 </div>
             </div>

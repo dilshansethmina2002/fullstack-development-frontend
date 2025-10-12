@@ -5,6 +5,7 @@ import { CiSettings } from "react-icons/ci";
 import { LuPackage } from "react-icons/lu";
 import AdminProductPage from "./admin/AdminProductPage";
 import { AddproductForm } from "./admin/AddproductForm";
+import { EditProductForm } from "./admin/EditProductForm";
 export function AdminPage(){
     return(
         <div className="bg-gray-300 w-full h-screen flex flex-row p-1">
@@ -22,6 +23,7 @@ export function AdminPage(){
                     <Route path="/settings" element={<h1>Settings Page</h1>} />
                     <Route path="/*" element={<h1>Welcome to Admin Panel</h1>} />
                     <Route path="/addProduct" element={<AddproductForm />} />
+                    <Route path="/editProduct" element={<EditProductForm />} />
                 </Routes>
             </div>
         </div>
