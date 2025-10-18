@@ -1,9 +1,13 @@
+import { Link } from "react-router-dom";
+
 export function Header(){
     return(
-        <div className="bg-blue-300 w-full p-4 text-center">
-            <h1 className="text-5xl text-white ">Welcome to CBC Frontend</h1>
-            <p>Your one-stop solution for all things CBC.</p>
-            <button>Get Started</button>
+        <div className="h-[75px] w-full flex items-center justify-center w-full bg-blue-300" >
+            <div className="flex items-center justify-evenly w-[500px] text-2xl">
+                <Link to="/" className=" ">Home</Link>
+                <Link to="/product" >Product</Link>
+                <Link to="/contact" >Contact</Link>
+            </div>
         </div>
     )
 }

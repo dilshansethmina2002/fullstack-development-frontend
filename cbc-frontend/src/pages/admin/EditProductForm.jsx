@@ -7,6 +7,7 @@ import { MediaUpload } from "../../../utils/mediaUpload";
 export function EditProductForm(){
 
     const locationData = useLocation();
+    const [loading,setLoading] = useState(false)
 
     const [productId,setProductId] = useState(locationData.state.product.productId)
     const [name,setName] = useState(locationData.state.product.name)
@@ -19,6 +20,7 @@ export function EditProductForm(){
     const navigate = useNavigate()
 
     async function handleEditProduct(){
+        setLoading(true)
         const promiseArray = []
         for(let i=0;i<images.length;i++){
             const promise= MediaUpload(images[i])
@@ -52,6 +54,7 @@ export function EditProductForm(){
                     }
                 }
                 )
+            setLoading(false)
             toast.success("Product updated successfully")
             navigate("/admin/products")
 
@@ -130,7 +133,11 @@ export function EditProductForm(){
 
                 <div className="flex flex-row mt-5 items-center justify-between text-xl  w-[70%] h-[70px] ">
                     <Link to="/admin/products" className="bg-red-400 p-3 rounded-lg hover:bg-red-500 w-[170px] flex items-center justify-center">Cancle</Link>
-                    <button onClick={handleEditProduct} className="bg-green-400 p-3 rounded-lg hover:bg-green-500 ml-5 w-[170px] flex items-center justify-center ">Update</button>
+                    <button onClick={handleEditProduct} className="bg-green-400 p-3 rounded-lg hover:bg-green-500 ml-5 w-[170px] flex items-center justify-center ">
+                        {
+                            loading ? "Updating" : "Update"
+                        }
+                    </button>
 
                 </div>
             </div>
