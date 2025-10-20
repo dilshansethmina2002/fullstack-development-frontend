@@ -1,7 +1,7 @@
 export default function Loader() {
-    return (
-        <div className="absolute inset-0 flex items-center justify-center bg-white bg-opacity-80 z-10">
-          <div className="w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
-        </div>
-    )
+  return (
+    <div className="w-full h-[100vh] flex items-center justify-center bg-transparent bg-opacity-10 z-10">
+      <div className="w-[200px] h-[200px] border-8 border-blue-500 border-shadow- border-t-transparent rounded-full animate-spin"></div>
+    </div>
+  );
 }

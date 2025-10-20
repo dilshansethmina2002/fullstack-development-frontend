@@ -1,6 +1,7 @@
 import { Route, Routes } from "react-router-dom"
 import { Header } from "../../components/Header"
 import { ProductPage } from "./ProductPage"
+import { ProductOverview } from "./ProuctOverview"
 
 export function HomePage(){
 
@@ -13,6 +14,7 @@ export function HomePage(){
                     <Route path="/*" element={<h1>HomePage Content</h1>} />
                     <Route path="/product" element={<ProductPage/> }/>
                     <Route path="/contact" element={<h1>Contact Page Content</h1>} />
+                    <Route path="/overview/:id" element={<ProductOverview/>}/>
                 </Routes>
                 
             </div>

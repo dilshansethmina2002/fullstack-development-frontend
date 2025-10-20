@@ -4,7 +4,7 @@ export function ProductCard(props){
     const product = props.product
 
     return(
-        <Link className=" w-[250px] h-[350px] m-4 shadow-2xl">
+        <Link to={"/overview/"+product.productId} className=" w-[250px] h-[350px] m-4 shadow-2xl">
             <img src={product.images[0]} className="w-full h-[220px]"/>
             <div className="w-full h-[130px] flex flex-col justify-center p-3">
                 <p className="text-lg font-bold"> {product.name}</p>
