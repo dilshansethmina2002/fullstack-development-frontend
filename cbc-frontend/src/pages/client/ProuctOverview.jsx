@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
 import Loader from "../../components/loader";
+import ImageSlider from "../../components/ImageSlider";
 
 export function ProductOverview(){
     const params = useParams()
@@ -20,9 +21,8 @@ export function ProductOverview(){
             if(status=="loading"){
                 axios.get(import.meta.env.VITE_BACKEND_URL + "/api/product/" + params.id).then(
                    (res)=>{
-                        setProduct(res.data)
+                        setProduct(res.data.product)
                         setStatus("loaded")
-                        console.log("--------------------------")
                     } 
                 ).catch(
                 ()=>{
@@ -42,8 +42,38 @@ export function ProductOverview(){
                 
             }
             {
-                status == "loaded" && <div>
+                status == "loaded" && 
+                <div className="w-full h-full flex">
+                    {/* Image Slider */}
+                    <div className="w-[50%] h-full">
+                        <ImageSlider images={product.images}/>
+                    </div>
 
+                    {/* Product Description */}
+                    <div className="w-[50%] h-full flex p-[80px]">
+                        <div className="text-center">
+                            <h1 className="text-3xl  font-bold mb-[30px]">{product.name}</h1>
+                            <h2 className="text-3xl text-gray-500 m-[30px]">{product.altName.join(" | ")}</h2>
+                            
+                            <div className="w-full">
+                                {
+                                    product.price<product.labledPrice ? 
+                                    <>
+                                        <span className="text-3xl m-[40px] ">LKR : {product.price.toFixed(2)+" "}</span>
+                                        <span className="text-3xl line-through text-gray-300">LKR : {product.labledPrice.toFixed(2)}</span> 
+                                    </>
+                                    :
+                                    <h2 className="text-3xl ">LKR : {product.price.toFixed(2)}</h2>
+                                      
+                                }
+                            </div>
+                            
+                            <p className="text-xl text-gray-400 m-[20px]">{product.description}</p>
+                            
+
+                        </div>
+                    </div> 
+                    
                 </div>
             }
             {

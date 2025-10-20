@@ -6,10 +6,10 @@ import { ProductOverview } from "./ProuctOverview"
 export function HomePage(){
 
     return(
-        <div className="w-full h-screen bg-green-200 ">
+        <div className="w-full h-screen ">
             <Header/>
             
-            <div className="flex flex-col items-center justify-center min-h-[calc(100vh-75px)] gap-6 ">
+            <div className="flex flex-col items-center justify-center h-[calc(100vh-75px)] min-h-[calc(100vh-75px)] gap-6 ">
                 <Routes path="*">
                     <Route path="/*" element={<h1>HomePage Content</h1>} />
                     <Route path="/product" element={<ProductPage/> }/>
