@@ -69,9 +69,17 @@ export function ProductOverview(){
                             </div>
                             
                             <p className="text-xl text-gray-400 m-[20px]">{product.description}</p>
-                            
+                                
+
+                            <div>
+                                <button className="bg-pink-400 rounded-lg p-3 m-2 border border-pink-600 text-white hover:bg-white hover:text-pink-600 w-[40%] cursor-pointer">Add To Cart</button>
+                                <button className="bg-pink-400 rounded-lg p-3 m-2 border border-pink-600 text-white hover:bg-white hover:text-pink-600 w-[40%] cursor-pointer">Buy Now</button>
+
+                            </div>
+
 
                         </div>
+                        
                     </div> 
                     
                 </div>
