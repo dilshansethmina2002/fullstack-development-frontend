@@ -11,30 +11,41 @@ export default function getCart(){
     return cart
 }
 
-export function addToCart(product,qty){
-    const cart = getCart();
-    const productIndex = cart.findIndex((product)=>{product.productId == productId})
-    
-    if(productIndex == -1){
-        cart.push(
-            {
-                productId : product.productId,
-                name : product.name,
-                altName : product.altName,
-                price : product.price,
-                labledPrice : product.labledPrice,
-                image : product.image,
-                quantity : qty
-            }
-        )
-        
-    }else{
-        cart[productIndex].quantity += qty
+export function addToCart(product, qty) {
+    let cart = getCart();
+
+    const productIndex = cart.findIndex(prd => prd.productId == product.productId);
+
+    if (productIndex === -1) {
+        cart.push({
+            productId: product.productId,
+            name: product.name,
+            altName: product.altName,
+            price: product.price,
+            labledPrice: product.labledPrice,
+            image: product.images,
+            quantity: qty
+        });
+    } else {
+        cart[productIndex].quantity += qty;
+
+        if (cart[productIndex].quantity <= 0) {
+            cart = cart.filter(prd => prd.productId !== product.productId);
+        }
     }
 
-    localStorage.setItem("cart", JSON.stringify(cart))
-    return cart
-
+    localStorage.setItem("cart", JSON.stringify(cart));
+    return cart;
 }
 
+export function removeFromCart(productId){
+    let cart = getCart()
+    cart = cart.filter((product)=> product.productId !== productId)
+    localStorage.setItem("cart" , JSON.stringify(cart))
+    return cart
+}
+
+export function clearCart() {
+  localStorage.removeItem("cart");
+}
 

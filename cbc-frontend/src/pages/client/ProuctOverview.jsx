@@ -4,6 +4,7 @@ import toast from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
 import Loader from "../../components/loader";
 import ImageSlider from "../../components/ImageSlider";
+import getCart, { addToCart } from "./cart";
 
 export function ProductOverview(){
     const params = useParams()
@@ -72,7 +73,16 @@ export function ProductOverview(){
                                 
 
                             <div>
-                                <button className="bg-pink-400 rounded-lg p-3 m-2 border border-pink-600 text-white hover:bg-white hover:text-pink-600 w-[40%] cursor-pointer">Add To Cart</button>
+                                <button className="bg-pink-400 rounded-lg p-3 m-2 border border-pink-600 text-white hover:bg-white hover:text-pink-600 w-[40%] cursor-pointer" onClick={
+                                    ()=>{
+                                        addToCart(product , 1)
+                                        toast.success("Product added successfull")
+                                        console.log(getCart())
+
+                                    }
+                                        
+                                    
+                                    }>Add To Cart</button>
                                 <button className="bg-pink-400 rounded-lg p-3 m-2 border border-pink-600 text-white hover:bg-white hover:text-pink-600 w-[40%] cursor-pointer">Buy Now</button>
 
                             </div>
